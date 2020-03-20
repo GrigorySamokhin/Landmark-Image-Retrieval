@@ -28,12 +28,9 @@ class ResidualNet(ResNet):
         x = self.layer3(x)
         x = self.layer4(x)
 
-        # Reduce dimension filters
-        feature_vector = AvgPool2d((x.size(-2), x.size(-1)), stride=(x.size(-2), x.size(-1)))(x)
-
-        # Create a one-dimension vector
-        feature_vector = feature_vector.view(feature_vector.size(0), -1)
-        return feature_vector
+        x = self.avgpool(x)
+        x = torch.flatten(x, 1)
+        return x
 
 class FeatureExtractor(object):
     def __init__(self, dataset):
@@ -114,7 +111,6 @@ class FeatureExtractor(object):
         '''
         print("Computed feature vectors of dataset: False. \nComputing...")
         self.res_model.eval()
-
         # Check directory for metadata
         if not os.path.exists(self.metadata_dir):
             os.makedirs(self.metadata_dir)
