@@ -123,7 +123,8 @@ Output
                             predict: Predict a class of query map: Calculate an
                             average precision of dataset accuracy: Calculate
                             accuracy of prediction on testing dataset
-                            create_test_dataset
+                            create_test_dataset: Creating a testing dataset from
+                        	dataset cbir: Print 3 most similar photo for query
       --distance DISTANCE   L1: Manhattan Distance L2: Euclidean distance
 
 ### References
