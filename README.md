@@ -4,7 +4,9 @@ A program uses the content of an image, to search for the most similar images in
 
 ##   Project Objectives
 >  Extracted keypoint detectors with ResNet pre-trained model from dataset
+
 >  Accepted a query image
+
 >  Using K Nearest Neighbours Classification
 
 ### Data
@@ -101,7 +103,7 @@ Output
 			numpy		== 1.16.2
 			pytorch		== 1.0.1
 			opencv		== 3.4.1
-			torchvision == 0.2.2
+			torchvision	== 0.2.2
 			matplotlib 	== 3.0.3
 			six 		== 1.12.0
 
