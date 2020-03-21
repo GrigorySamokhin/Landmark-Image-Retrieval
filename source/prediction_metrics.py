@@ -268,19 +268,15 @@ def print_nearest_photo(query, vectors, distance):
     Calculate nearest photos and prints nearest DEPTH samples
     '''
     results = predict_class(query, vectors, distance, mode=2)
-    image_datas = []
 
     plt.imshow(np.array(plt.imread(query['image_path']), dtype=int))
     plt.title('Query Image')
     plt.show()
 
-    for vectors in results:
+    for i, vectors in enumerate(results):
         image_path = vectors['image_path']
-        image = plt.imread(image_path)
-        image_datas.append(np.array(image, dtype=int))
-
-    f, axarr = plt.subplots(1, 3)
-    axarr[0, 0].imshow(image_datas[0])
-    axarr[0, 1].imshow(image_datas[1])
-    axarr[1, 0].imshow(image_datas[2])
+        image = np.array(plt.imread(image_path), dtype=int)
+        plt.title('Result {}'.format(i))
+        plt.imshow(image)
+        plt.show()
 
