@@ -13,9 +13,9 @@ Testing data is set of photos from google stored in **paris_test** directory. Bu
 
     python3 main.py --mode create_test_dataset --dataset $PATH
     Dataset structure: dataset/	class_1/
-								class_2/
-								...
-								class_n/
+					class_2/
+					...
+					class_n/
 
 ### Model
 In order to extract features from each image in the dataset, I use pre-trained ResNet like feature extractor, taking the activation’s available before the last fully connected layer of the network. These activation’s will be acting as the feature vector. The computed vectors from dataset are stored in metadata/ directory in .cpickle format. The minus of this approach is that if we will find quite different photo of object it makes false prediction.
