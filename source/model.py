@@ -99,7 +99,8 @@ class FeatureExtractor(object):
         '''
         self.res_model.eval()
         image_query = self.preprocces_image(image_path)
-        result_query = {'feature_vector': self.compute_input(image_query)}
+        result_query = {'feature_vector': self.compute_input(image_query),
+                        'image_path': image_path}
         return result_query
 
     def compute_feature_vectors(self, database):

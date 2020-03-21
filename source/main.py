@@ -2,7 +2,7 @@ import torch
 import argparse
 from model import FeatureExtractor
 from prediction_metrics import calculate_map_metric, predict_class, \
-    calculate_accuracy_metric, create_test_dataset
+    calculate_accuracy_metric, create_test_dataset, print_nearest_photo
 from dataset import DataSet
 
 
@@ -17,7 +17,8 @@ parser.add_argument('--mode', type=str, help='train: Extract feature vectors fro
                                              'predict: Predict a class of query \n'
                                              'map: Calculate an average precision of dataset\n'
                                              'accuracy: Calculate accuracy of prediction on testing dataset\n'
-                                             'create_test_dataset')
+                                             'create_test_dataset: Creating a testing dataset from dataset\n'
+                                             'cbir: Print 3 most similar photo for query')
 parser.add_argument('--distance', type=str, help='L1: Manhattan Distance \n'
                                             'L2: Euclidean distance', required=False, default='L1')
 args = parser.parse_args()
@@ -49,4 +50,8 @@ if __name__ == "__main__":
         calculate_accuracy_metric(dataset, args.test_dataset, FeatureExtractor, args.distance)
     elif args.mode == 'create_test_dataset':
         create_test_dataset(dataset.dataset_dir)
+    elif args.mode == 'cbir':
+        extractor = FeatureExtractor(dataset.dataset_dir)
+        vectors = extractor.feature_vectors(dataset)
+        print_nearest_photo(extractor.compute_query_vector(args.query), vectors, args.distance)
 

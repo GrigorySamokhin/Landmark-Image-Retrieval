@@ -3,6 +3,7 @@ from collections import Counter
 import os
 import random
 from shutil import move
+import matplotlib.pyplot as plt
 
 DEPTH = 3
 TEST_DATASET_SIZE = .1
@@ -32,6 +33,7 @@ def predict_class(query, vectors, distance, mode=0):
     :param distance: Type of distance
     :param mode:    0 - Print result of prediction
                     1 - Return result of prediction
+                    2 - Return list of DEPTH predictions
 
     Computing distance between query image vector and all vectors in dataset.
     Sort result list. Take n(DEPTH) best distances and return most frequently class.
@@ -43,7 +45,9 @@ def predict_class(query, vectors, distance, mode=0):
         distance_len = count_distance(temp_vector['feature_vector'], query['feature_vector'], distance)
         result_list.append({
             'class': temp_vector['class_image'],
-            'distance': distance_len})
+            'distance': distance_len,
+            'image_path': temp_vector['image_path']
+        })
 
     # Sorting list by distance
     result_list = sorted(result_list, key=lambda x: x['distance'])
@@ -52,8 +56,11 @@ def predict_class(query, vectors, distance, mode=0):
     result_best_distance = min(result_list, key=lambda x: x['distance'])
 
     # Get most frequent class in (DEPTH) first classes
-    res = Counter([x['class'] for x in result_list][:DEPTH])
-    res = min(res.items(), key=lambda x: (-x[1], x[0]))[0]
+    res_count = Counter([x['class'] for x in result_list][:DEPTH])
+    res = min(res_count.items(), key=lambda x: (-x[1], x[0]))[0]
+
+    if mode == 2:
+        return result_list[:DEPTH]
 
     if mode == 1:
         return res
@@ -247,3 +254,33 @@ def create_test_dataset(dataset_dir):
             os.mkdir(os.path.join(test_dir, class_dir))
         create_test_class(dataset_dir, class_dir)
     print('Create {}.'.format(test_dir))
+
+def print_nearest_photo(query, vectors, distance):
+    '''
+    :param query: Query Image dict with {'image_path': Path to image,
+                                    'class_image': Class of an image,
+                                    'feature_vector': Feature vector of image}
+    :param vectors: List with query-like type dict of whole dataset
+    :param distance: Type of distance
+    :param mode:    0 - Print result of prediction
+                    1 - Return result of prediction
+
+    Calculate nearest photos and prints nearest DEPTH samples
+    '''
+    results = predict_class(query, vectors, distance, mode=2)
+    image_datas = []
+
+    plt.imshow(np.array(plt.imread(query['image_path']), dtype=int))
+    plt.title('Query Image')
+    plt.show()
+
+    for vectors in results:
+        image_path = vectors['image_path']
+        image = plt.imread(image_path)
+        image_datas.append(np.array(image, dtype=int))
+
+    f, axarr = plt.subplots(1, 3)
+    axarr[0, 0].imshow(image_datas[0])
+    axarr[0, 1].imshow(image_datas[1])
+    axarr[1, 0].imshow(image_datas[2])
+
