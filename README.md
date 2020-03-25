@@ -1,4 +1,4 @@
-#  Landmark Image Classification with K Nearest Neighbours & CBIR
+#  Landmark Image Classification with K Nearest Neighbours | CBIR | VLAD + SIFT
 
 A program uses the content of an image, to search for the most similar images in a database. In order to find the closest match, the system must use an algorithm to efficiently find key "descriptors" for an image that can be used to compare to the descriptors of images in the database.
 
@@ -43,7 +43,7 @@ The Deep Learning approach to use pre-trained Neural Network or write it from sc
 Prediction based on KNN classification. The model calculate the distance (using L1 norm or L2 norm distances) between query image and every image in dataset and take n (DEPTH in code) images.
 After computing we need to load query image and get predictions by following command:
 
-    python3 main.py --mode predict --dataset paris --query paris_test/eiffel_tower/10-projets-de-voyage-a-PARIS.jpg
+    python3 main.py --mode predict --model resnet --dataset paris --query paris_test/eiffel_tower/10-projets-de-voyage-a-PARIS.jpg
    ![enter image description here](https://psv4.userapi.com/c856536/u21543301/docs/d11/ee72ca94059c/10-projets-de-voyage-a-PARIS.jpg?extra=x7wrxiN9q7mgoiEUABadee7AXgLGsG2rrNM5YdIziRrDns6gJTXj8awrEDrTeqzCRYu_G_SZu4EsSxBo6j-EaFXngGFjaNqd6wlOKgO0BvKdaKE4qhfilPdLPxvdCAfeI0_VOR3k_YCBSksEB89A-Ro)
   Output:
 
@@ -70,7 +70,7 @@ On CPU all vectors in dataset **paris** with 50 images in 5 classes will compute
 ### Content Based Image Retrieval 
 You can print nearest photo in dataset by command:
 
-    python3 --mode cbir --dataset paris --query paris_test/eiffel_tower/paris-1513078302.jpg
+    python3 main.py --mode cbir --model resnet --dataset paris --query paris_test/eiffel_tower/paris-1513078302.jpg
 Output:
 ![](https://sun9-2.userapi.com/c855124/v855124614/20ffb9/ArmXsj9rbcw.jpg)
 
@@ -80,17 +80,35 @@ Output:
 
 ![enter image description here](https://sun9-57.userapi.com/c855124/v855124614/20ffd5/xHQuFcNKuR8.jpg)
 
+### VLAD + SIFT
+
+We also can classify or retrieve images with [VLAD](https://lear.inrialpes.fr/pubs/2010/JDSP10/jegou_compactimagerepresentation.pdf) (Vector of Locally Aggregated Descriptors) and SIFT (Scale-invariant feature transform) approach.
+To retieve images with VLAD + SIFT use:
+
+    python3 main.py --mode cbir --model vlad --dataset paris --query paris_test/louvre/louvre.jpg
+
+Output:
+
+![](https://sun9-22.userapi.com/c205816/v205816415/b381c/VrNrlsBkzg4.jpg)
+![](https://sun9-19.userapi.com/c205816/v205816415/b3823/Amux3NyoCL0.jpg)
+![](https://sun9-49.userapi.com/c205816/v205816415/b382a/b1sHbqsFQ-M.jpg)
+![](https://sun9-41.userapi.com/c205816/v205816415/b3831/KaRXn5yD1j0.jpg)
+
+To classify query image use:
+
+    python3 main.py --mode predict --model vlad --dataset paris --query paris_test/eiffel_tower/2019_05_30_73565_1559195283._large.jpg
+
+Output:
+    
+    Predicted class for query image: eiffel_tower.
+    
 ### Metrcis
 **MAP (Mean Average Precision)**
 
-    python3 --mode map --dataset paris
-  Output
+Resnet:
 
-    Mode type: map.
-    Distance type: L1.
-    GPU available: False.
-    Dataset directory: paris.
-    Computed feature vectors of dataset: True.
+    python3 main.py --metric map --model resnet --dataset paris
+  Output
     
     MAP based on first 3 vectors
     Class: moulinrouge, MAP: 1.0
@@ -100,16 +118,23 @@ Output:
     Class: invalides, MAP: 0.98
     MMAP:  0.968888888888889
 
+VLAD:
+
+    python3 main.py --metric map --model vlad --dataset paris
+Output:  
+   
+    MAP based on first 3 vectors
+    Class: louvre, MAP: 0.79
+    Class: defense, MAP: 0.93
+    Class: eiffel_tower, MAP: 0.89
+    Class: invalides, MAP: 0.93
+    Class: moulinrouge, MAP: 0.99
+    MMAP:  0.906
   **Accuracy**
 
-    python3 --mode accuracy --dataset paris --test_dataset paris_test
-Output
 
-    Mode type: accuracy.
-    Distance type: L1.
-    GPU available: False.
-    Dataset directory: paris.
-    Computed feature vectors of dataset: True.
+    python3 main.py --metric accuracy --model resnet --dataset paris --test_dataset paris_test
+Output
         
     Class: defense, accuracy: 0.8.
     Class: eiffel_tower, accuracy: 1.0.
@@ -130,7 +155,8 @@ Output
 ### Usage
 
     usage: main.py [-h] --dataset DATASET [--test_dataset TEST_DATASET]
-                   [--query QUERY] [--mode MODE] [--distance DISTANCE]
+                   [--query QUERY] [--model MODEL] [--mode MODE] [--metric METRIC]
+                   [--distance DISTANCE]
     
     Image Classification based on ResNet pre-trained model and L1 norm
     
@@ -140,13 +166,18 @@ Output
       --test_dataset TEST_DATASET
                             Path to your test dataset, work if mode: accuracy
       --query QUERY         Path to your query: example.jpg
+      --model MODEL         vlad: Predict class using VLAD + SIFT resnet: Pre-
+                            trained ResNet
       --mode MODE           train: Extract feature vectors from given dataset,
-                            predict: Predict a class of query map: Calculate an
-                            average precision of dataset accuracy: Calculate
-                            accuracy of prediction on testing dataset
-                            create_test_dataset: Creating a testing dataset from
-                            dataset cbir: Print 3 most similar photo for query
+                            predict: Predict a class of query create_test_dataset:
+                            Creating a testing dataset from dataset cbir: Print 3
+                            most similar photo for queryvlad: Predict class using
+                            VLAD + SIFT
+      --metric METRIC       map: Calculate an average precision of dataset
+                            accuracy: Calculate accuracy of prediction on testing
+                            dataset
       --distance DISTANCE   L1: Manhattan Distance L2: Euclidean distance
+
 
 
 

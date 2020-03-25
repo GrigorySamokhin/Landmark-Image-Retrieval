@@ -127,7 +127,7 @@ def calculate_ap(query, vectors, distance):
     ap = get_ap(query['class_image'], results)
     return ap
 
-def calculate_map_metric(dataset, FeatureExtractor, distance):
+def calculate_map_metric(dataset, FeatureExtractor, distance='L1'):
     '''
     :param dataset: Object of DataSet with images and classes
     :param FeatureExtractor: Object of FeatureExtractor
@@ -162,6 +162,74 @@ def calculate_map_metric(dataset, FeatureExtractor, distance):
         mean_ap.append(map)
         print("Class: {}, MAP: {}".format(class_temp, round(map, 2)))
     print("MMAP: ", np.mean(mean_ap))
+
+def calculate_map_vlad_metric(dataset, vlad_class, distance='L1'):
+    '''
+    :param dataset: Object of DataSet with images and classes
+    :param FeatureExtractor: Object of FeatureExtractor
+    :param distance: Type of distance
+
+
+    Compute all Images from dataset into feature vectors.
+    Calculating an Average Precision for each image in class.
+    Calculating Mean Average Precision for each class and Mean MAP
+    '''
+
+    # Get list of labels
+    labels = dataset.get_labels()
+    ret = {c: [] for c in labels}
+    mean_ap = []
+
+    _, vlad_vectors = vlad_class.get_clusters_vlad_descriptors(dataset)
+
+    # Calculate Average Precision for each image and store it for each class
+    for temp_vector in vlad_vectors:
+        ap = calculate_ap(temp_vector, vlad_vectors, distance)
+        ret[temp_vector['class_image']].append(ap)
+
+    # Calculate MAP and MMAP
+    print('\nMAP based on first {} vectors'.format(DEPTH))
+    for class_temp, ap_temp in ret.items():
+        map = np.mean(ap_temp)
+        mean_ap.append(map)
+        print("Class: {}, MAP: {}".format(class_temp, round(map, 2)))
+    print("MMAP: ", np.mean(mean_ap))
+
+
+def calculate_accuracy_metric_vlad(dataset, test_dataset, vlad_class):
+    '''
+    :param dataset: Object of main DataSet with images and classes
+    :param test_dataset: Object of test DataSet with images and classes
+    :param FeatureExtractor: Object of FeatureExtractor
+    :param distance: Type of distance
+
+    Compute all Images from dataset into feature vectors.
+    Going through test_dataset directory and make prediction for every image.
+    When calculating an accuracy for each class
+    '''
+
+    kmeans_clusters, vlad_descriptors = vlad_class.get_clusters_vlad_descriptors(dataset)
+    # Create object to create feature vectors from photos
+
+    all_result = []
+
+    # For each image in dataset_test make predictions and check accuracy for each class
+    for class_path in os.listdir(test_dataset):
+        right_pred = 0
+        for query_path in os.listdir(os.path.join(test_dataset, class_path)):
+
+            # Create feature vector
+            class_pred = vlad_class.get_prediction(kmeans_clusters, vlad_descriptors,
+                        os.path.join(test_dataset, class_path, query_path), 1)
+
+            if class_pred == class_path:
+                    right_pred += 1
+        accuracy_class = right_pred / len(os.listdir(os.path.join(test_dataset, class_path)))
+        all_result.append({'accuracy': accuracy_class,
+                           'class': class_path})
+    print('\n')
+    for temp_list in all_result:
+        print('Class: {}, accuracy: {}.'.format(temp_list['class'], round(temp_list['accuracy'], 2)))
 
 def calculate_accuracy_metric(dataset, test_dataset, FeatureExtractor, distance):
     '''
@@ -262,8 +330,6 @@ def print_nearest_photo(query, vectors, distance):
                                     'feature_vector': Feature vector of image}
     :param vectors: List with query-like type dict of whole dataset
     :param distance: Type of distance
-    :param mode:    0 - Print result of prediction
-                    1 - Return result of prediction
 
     Calculate nearest photos and prints nearest DEPTH samples
     '''
@@ -280,3 +346,26 @@ def print_nearest_photo(query, vectors, distance):
         plt.imshow(image)
         plt.show()
 
+def print_nearest_photo_vlad(vlad_class, vlad_dataset, query):
+    '''
+    :param query: Query Image dict with {'image_path': Path to image,
+                                    'class_image': Class of an image,
+                                    'feature_vector': Feature vector of image}
+    :param vectors: List with query-like type dict of whole dataset
+    :param distance: Type of distance
+
+    Calculate nearest photos and prints nearest DEPTH samples
+    '''
+    kmeans_clusters, vlad_descriptors = vlad_class.get_clusters_vlad_descriptors(vlad_dataset)
+    results = vlad_class.get_prediction(kmeans_clusters, vlad_descriptors, mode=2)
+
+    plt.imshow(np.array(plt.imread(query), dtype=int))
+    plt.title('Query Image')
+    plt.show()
+
+    for i, vectors in enumerate(results):
+        image_path = vectors['image_path']
+        image = np.array(plt.imread(image_path), dtype=int)
+        plt.title('Result {}'.format(i))
+        plt.imshow(image)
+        plt.show()

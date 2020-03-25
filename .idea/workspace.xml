@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6b709186-6421-4be2-b5ac-88eb416b7322" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1Zaj3AZ6mnHLP3jW651dEe4OHUz" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/paris_test/louvre" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\samoh\OneDrive\Desktop\Landmark-Classification\paris_test\louvre" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\samoh\OneDrive\Desktop\Landmark-Classification" />
+      <recent name="C:\Users\samoh\OneDrive\Desktop\Landmark-Classification\metadata" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="Landmark-Classification" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="C:\Users\samoh\Anaconda3\python.exe" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/source/main.py" />
+      <option name="PARAMETERS" value="--metric map --model vlad --dataset paris --query paris_test/eiffel_tower/2019_05_30_73565_1559195283._large.jpg" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6b709186-6421-4be2-b5ac-88eb416b7322" name="Default Changelist" comment="" />
+      <created>1585001519258</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1585001519258</updated>
+      <workItem from="1585001560369" duration="2000" />
+      <workItem from="1585083899507" duration="2839000" />
+      <workItem from="1585129758033" duration="28235000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="-1092" y="135" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1585178486675">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1092" y="135" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585178486675" />
+    <state width="646" height="440" key="DebuggerActiveHint" timestamp="1585085997740">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="646" height="440" key="DebuggerActiveHint/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585085997740" />
+    <state x="-1220" y="235" key="FileChooserDialogImpl" timestamp="1585175302005">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1220" y="235" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585175302005" />
+    <state width="1714" height="190" key="GridCell.Tab.0.bottom" timestamp="1585178777419">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1714" height="190" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585178777419" />
+    <state width="1714" height="190" key="GridCell.Tab.0.center" timestamp="1585178777418">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1714" height="190" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585178777418" />
+    <state width="1714" height="190" key="GridCell.Tab.0.left" timestamp="1585178777418">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1714" height="190" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585178777418" />
+    <state width="1714" height="190" key="GridCell.Tab.0.right" timestamp="1585178777418">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1714" height="190" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585178777418" />
+    <state width="1877" height="290" key="GridCell.Tab.1.bottom" timestamp="1585175754877">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="290" key="GridCell.Tab.1.bottom/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585175754877" />
+    <state width="1877" height="290" key="GridCell.Tab.1.center" timestamp="1585175754877">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="290" key="GridCell.Tab.1.center/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585175754877" />
+    <state width="1877" height="290" key="GridCell.Tab.1.left" timestamp="1585175754877">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="290" key="GridCell.Tab.1.left/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585175754877" />
+    <state width="1877" height="290" key="GridCell.Tab.1.right" timestamp="1585175754877">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="290" key="GridCell.Tab.1.right/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585175754877" />
+    <state x="-1459" y="162" key="SettingsEditor" timestamp="1585130330403">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1459" y="162" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585130330403" />
+    <state x="-1264" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1585130118589">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1264" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585130118589" />
+    <state x="-1264" y="252" width="737" height="606" key="find.popup" timestamp="1585172877656">
+      <screen x="-1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="-1264" y="252" width="737" height="606" key="find.popup/0.0.1920.1040/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1585172877656" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="PythonConfigurationType">
+        <watch expression="df_data.itertuples()" language="Python" />
+        <watch expression="list(df_data.itertuples())" language="Python" />
+        <watch expression="predictedLabels == i" language="Python" />
+        <watch expression="np.sum(predictedLabels == i)" language="Python" />
+        <watch expression="centers[0]" language="Python" />
+        <watch expression="X[predictedLabels == i, :]" language="Python" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Landmark_Classification$main.coverage" NAME="main Coverage Results" MODIFIED="1584833284674" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Landmark_Classification$vlad_sift.coverage" NAME="main Coverage Results" MODIFIED="1585178614931" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Landmark_Classification$Unnamed.coverage" NAME="Unnamed Coverage Results" MODIFIED="1584825501115" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+  </component>
+</project>

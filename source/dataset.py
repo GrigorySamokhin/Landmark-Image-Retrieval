@@ -14,7 +14,6 @@ class DataSet(object):
         .data - DataFrame with paths and classes
         .labels - set with classes
         '''
-        print('Dataset directory: {}.'.format(database_dir))
         self.dataset_dir = database_dir
         self.file_name_csv = METADATA_DIR + os.path.sep + database_dir+'.csv'
         self.create_csv()

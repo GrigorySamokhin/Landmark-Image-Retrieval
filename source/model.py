@@ -34,7 +34,7 @@ class ResidualNet(ResNet):
 
 class FeatureExtractor(object):
     def __init__(self, dataset):
-        self.model_type = 'vectors_for_dataset_{}.cpickle'.format(dataset)
+        self.model_type = 'vectors_for_dataset_{}_resnet.cpickle'.format(dataset)
         self.metadata_dir = 'metadata'
         self.res_model = ResidualNet()
         if USE_GPU:
@@ -103,7 +103,7 @@ class FeatureExtractor(object):
                         'image_path': image_path}
         return result_query
 
-    def compute_feature_vectors(self, database):
+    def compute_feature_vectors(self, dataset):
         '''
         Computing feature vector for images in dataset
         vectors = vectors type of {'image_path': Path to image,
@@ -118,7 +118,7 @@ class FeatureExtractor(object):
         vectors = []
 
         # Create list of vectors
-        df_data = database.get_data()
+        df_data = dataset.get_data()
         for image_temp in df_data.itertuples():
             try:
                 input = self.preprocces_image(image_temp.image_path)
