@@ -2,7 +2,6 @@ import os
 import matplotlib.pyplot as plt
 import cv2
 import numpy as np
-from torch.nn import AvgPool2d
 from torch.autograd import Variable
 from torchvision.models.resnet import Bottleneck, ResNet
 import torch.utils.model_zoo as model_zoo

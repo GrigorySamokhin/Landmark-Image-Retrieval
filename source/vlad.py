@@ -70,7 +70,7 @@ class VladPrediction(object):
 		print('Compete.')
 		return clasters
 
-	def compute_vlad_descriptor(self, descriptor, kmeans_clusters):
+	def compute_vlad_descriptor(self, descriptors, kmeans_clusters):
 		'''
 		:param descriptor: SIFT descriptor of image
 		:param kmeans_clusters: Object of Kmeans (sklearn)
@@ -80,10 +80,10 @@ class VladPrediction(object):
 		and calculate sum of residuals between descriptor and centroid (cluster center)
 		'''
 		# Get SIFT dimension (default: 128)
-		sift_dim = descriptor.shape[1]
+		sift_dim = descriptors.shape[1]
 
 		# Predict clusters for each key-point of image
-		labels_pred = kmeans_clusters.predict(descriptor)
+		labels_pred = kmeans_clusters.predict(descriptors)
 
 		# Get centers fot each cluster and number of clusters
 		centers_cluster = kmeans_clusters.cluster_centers_
@@ -95,7 +95,7 @@ class VladPrediction(object):
 			if np.sum(labels_pred == i) > 0:
 
 				# Get descritors which belongs to cluster and compute residuals between x and centroids
-				x_belongs_cluster = descriptor[labels_pred == i, :]
+				x_belongs_cluster = descriptors[labels_pred == i, :]
 				vlad_descriptors[i] = np.sum(x_belongs_cluster - centers_cluster[i], axis=0)
 
 		# Create vector from matrix
@@ -177,7 +177,7 @@ class VladPrediction(object):
 		print('\nPredicted class for query image: {}.'.format(res))
 
 
-	def get_clusters_vlad_descriptors(self, dataset, k=64):
+	def get_clusters_vlad_descriptors(self, dataset, k=16):
 		'''
 		:param dataset: main dataset
 		:param k: number os clusters to determine (default=64)
@@ -209,9 +209,9 @@ class VladPrediction(object):
 		'''
 		:param dataset: DataSet type of main dataset
 
-		Compute clusters for SIFT descriptors and VLAD vectors
+		Compute clusters and VLAD vectors
 		'''
-		# Get SIFT descriptors, clusters, VLAD vectors
+		# Get clusters, VLAD vectors
 		kmeans_clusters, vlad_descriptors = self.get_clusters_vlad_descriptors(dataset)
 
 		# Get prediction

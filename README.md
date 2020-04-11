@@ -3,23 +3,44 @@
 A program uses the content of an image, to search for the most similar images in a database. In order to find the closest match, the system must use an algorithm to efficiently find key "descriptors" for an image that can be used to compare to the descriptors of images in the database.
 
 ##   Project Objectives
->  Extracted keypoint detectors with ResNet pre-trained model from dataset
+>  Extract feature using ResNet (like feature extractor) or SIFT + VLAD
 
 >  Accepted a query image
 
->  Using K Nearest Neighbours Classification
+>  Using KNN
 
-### Data
-For this project i choose [Paris6k](https://www.robots.ox.ac.uk/~vgg/data/parisbuildings/) dataset, but i cropped it to 50 images per class for KNN, photos stored in **paris** directory. 
-Testing data is set of photos from google stored in **paris_test** directory. But you can generate own testing directory with following command (default size of test_dataset: 10%):
+## Data
+For this project i chose [Paris6k](https://www.robots.ox.ac.uk/~vgg/data/parisbuildings/) dataset. The original 
+dataset was cropped to 150 images per class (5 classes, only representative images were left, all classes of the same size). 
+
+
+Link to the dataset used in this project: 
+[Dataset on Google Drive](https://drive.google.com/file/d/13R4KH2WhOdQeZkKi5td_caFhU5RZt6w9/view?usp=sharing).
+
+
+But you use your own data, you can create own test dataset with following command (default size of test_dataset: 10%):
 
     python3 main.py --mode create_test_dataset --dataset $PATH
     Dataset structure: dataset/ class_1/
                     class_2/
                     ...
                     class_n/
+                    
+Two test datasets will be used to calculate the accuracy of our models:
 
-### Model
+- 10 photos per each class pre-selected from the main dataset. Included in link mentioned above.
+
+![](https://sun9-31.userapi.com/c857624/v857624652/1cb6b5/kfWSKpW-jIE.jpg)
+
+- 5 photo per each class from Google. 
+[Link](https://drive.google.com/file/d/1-qz0SZL_FOf4nTSMWb7-oXud1ZqCT4no/view?usp=sharing)
+
+![](https://sun9-27.userapi.com/c857624/v857624652/1cb6be/O2YudrDe3vY.jpg) 
+
+As you can see, I tried to choose photos where the object for identification was not 
+the size of the entire picture, and the photos had a lot of background.
+
+## Two approaches
 ResNet have been trained to recognise 1000 different categories from the ImageNet database. However we can also use them to extract a feature vector (a list of 2048 floating point values) of the models internal representation of a category. The computed vectors from dataset are stored in metadata/ directory in .cpickle format. The challenge is to handle with viewpoint variation, illumination conditions, scale variation, deformation. 
 
 Another implementation feature detection: 
@@ -30,7 +51,7 @@ Another implementation feature detection:
 - BRIEF (Binary Robust Independent Elementary Features)
 - ORB (Oriented FAST and Rotated BRIEF)
 - LBP (Local Binary Patterns)
-- Use another pre-trained NN
+- ...
 
 Taking the problem of feature extraction, we can compare the two types of algorithms for computer vision:
 
@@ -38,13 +59,117 @@ The traditional approach is to use well-established CV techniques such as featur
 
 The Deep Learning approach to use pre-trained Neural Network or write it from scratch. The advantage of using pre-trained models is that they have learned how to detect generic features from photographs, given that they were trained on more than 1,000,000 images for 1,000 categories.
 
-### Prediction
+### Comparison
+
+##### SIFT approach
+
+Scale-Invariant Feature Transform (SIFT) is commonly used to describe local regions from
+an image in a scale and rotational invariant way. Most of the time, SIFT refers to a two-step process
+including keypoints detection (using for example the Difference of Gaussian (DoG) method) and
+computation of SIFT descriptors around these keypoints. While the computed SIFT local descriptors are 
+informative on their own, they do not provide a compact representation of the image. Since the number 
+of extracted descriptors may vary between images, direct comparison between them is not possible. 
+In our case we using VLAD (Vector of Locally Aggregated Descriptors). Each descriptor is assigned to 
+its nearest cluster, and then, for each cluster, we consider the sum of differences between assigned 
+descriptors and the centroid of the cluster in the SIFT 128-dimensional space.
+
+##### Deep Learning approach
+In this case we have several training strategies can be considered, depending on the application and the database:
+	
+- Full Training: consists in training both the convolution and the classification part of the network. 
+Full training is more appropriate for databases of sufficient size or simple applications.
+
+- Fine-Tuning: consists in training only part of the convolutional layers of a pre-trained network 
+(trained on a huge database such as Imagenet). In this transfer learning method, shallow and general 
+layers are kept frozen while deep layers are re-trained with a very small learning rate to learn features 
+specific to the database. Fine-tuning generally works well for small databases.
+
+- Feature extractor approach is a more direct case of transfer learning. It also uses a pre-trained network 
+but directly treats it as a multi-usage generic feature extractor. No training is done on the convolutional 
+part and feature map extraction can be performed at any level of the network. Based on these extracted features, 
+any classifier could be used to obtain the final decision.
+
+In our case, i chose the feature extractor approach in ResNet as the comparison basis with SIFT features, since 
+it is an adapted solution for small datasets.
+
+## Results 
+#### MAP
+
+Here are the conclusions for the dataset used (described in the date section). 
+Two metrics were selected for evaluation, MAP and ACCURACY for the entire dataset. 
+As we can see, due to the fact that garbage was removed from the original dataset and all the photos 
+displayed the object belonging to their class, we were able to get quite high indicators (graph below). 
+
+As we might expect, the VLAD + SIFT approach lags a bit behind ResNet, since there are many photos in the 
+task of determining sequences, where the object is not in the center of the photo and SIFT recognizes many 
+third-party local points. Resnet doesn't have this problem because its weights have been trained 
+to highlight the main objects in the photo.
+
+![](https://sun9-3.userapi.com/c205616/v205616722/dee48/Xxb6MaOtVsA.jpg)
+
+
+#### Accuracy
+
+With accuracy, things are similar, and we received high marks. 
+If you look at the test photos (for which the accuracy was calculated), 
+you will notice that the objects on them are located in the center of the photos, just like 
+in the main database.  
+
+The accuracy is calculated from pre-selected photos from the main dataset.
+
+![](https://sun9-64.userapi.com/c205616/v205616722/dee4f/ZvUnxJGurJU.jpg)
+
+But we can quickly check the stability of photos with noise in these two approaches, 
+and use photos not from the original dataset. In this case, I used a set of 5 photos per 
+class downloaded from Google (Mentioned in *Data*).
+
+The accuracy is calculated from Google photos.
+
+![](https://sun9-36.userapi.com/c857624/v857624652/1cb661/Pyw2_HXy1qE.jpg)
+
+ Here we can see that the approach with ResNet is more robustness to different 
+ angles and is resistant to identifying the main objects in the photo.
+
+
+In General, such previous high rates are explained by the fact that the dataset was pre-processed 
+from bad photos. With an increase in the number of noisy photos and unrepresentative photos in 
+the dataset, the indicators would decrease, and you would have to use the classifier 
+on Landmarks/non-Landmark photo. 
+
+#### Diferent distance metrics
+
+Since we use KNN in both cases let's compare two types of distances with different numbers 
+of K neighbors and at the same time see how the map changes with their increase.
+
+![](https://sun9-42.userapi.com/c205616/v205616722/dee3a/L4CBz1dbTbM.jpg)
+![](https://sun9-16.userapi.com/c205616/v205616722/dee41/Wcr2BU99s94.jpg)
+
+First, we can see that with increasing K of the nearest neighbors in both cases, 
+MAP falls, this proves the intuitive fact that the nearest vectors by distance 
+most likely show the same object. 
+
+Second, we can see that ResNet's performance doesn't fall as much when we 
+increase k, which shows that It is generally better at extracting features.
+
+Third, we can see that at L2 distance SIFT+VLAD shows slightly better results, 
+but in General we can assume that L1 shows better results on our dataset.
+
+#### Diferent number of clusters (k-means) for VLAD-SIFT
+
+![](https://sun9-35.userapi.com/c205616/v205616722/dee56/AR_DQ2ynPJs.jpg)
+
+We can see accuracy are gradually increased with the number of clusters for VLAD-SIFT. 
+
+## Prediction
 
 Prediction based on KNN classification. The model calculate the distance (using L1 norm or L2 norm distances) between query image and every image in dataset and take n (DEPTH in code) images.
 After computing we need to load query image and get predictions by following command:
 
     python3 main.py --mode predict --model resnet --dataset paris --query paris_test/eiffel_tower/10-projets-de-voyage-a-PARIS.jpg
-   ![enter image description here](https://psv4.userapi.com/c856536/u21543301/docs/d11/ee72ca94059c/10-projets-de-voyage-a-PARIS.jpg?extra=x7wrxiN9q7mgoiEUABadee7AXgLGsG2rrNM5YdIziRrDns6gJTXj8awrEDrTeqzCRYu_G_SZu4EsSxBo6j-EaFXngGFjaNqd6wlOKgO0BvKdaKE4qhfilPdLPxvdCAfeI0_VOR3k_YCBSksEB89A-Ro)
+
+  
+![enter image description here](https://psv4.userapi.com/c856432/u21543301/docs/d5/aff8fd94843a/10-projets-de-voyage-a-PARIS.jpg?extra=tJGTDdUvLjs5iBJszZEyV48q5lFzz_U1CRyR3ydaiiGO0ItGHvqwD-wC6rHqp1JViqyuzphqSMX_CEAJVDUz7xq0YSs-l7BIVRVBtNMhh4fMmvfNAr50qu500TiMrKPNNHuZoxGeNUswMrm0RcH3ZvoG)
+
   Output:
 
     Mode type: predict.

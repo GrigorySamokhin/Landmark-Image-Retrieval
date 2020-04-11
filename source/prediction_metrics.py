@@ -5,10 +5,10 @@ import random
 from shutil import move
 import matplotlib.pyplot as plt
 
-DEPTH = 3
+DEPTH = 2
 TEST_DATASET_SIZE = .1
 
-def count_distance(vector_1, vector_2, distance_type):
+def count_distance(vector_1, vector_2, distance_type='L2'):
     '''
     :param vector_1:
     :param vector_2:

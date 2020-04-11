@@ -23,7 +23,7 @@ parser.add_argument('--mode', type=str, help='train: Extract feature vectors fro
 parser.add_argument('--metric', type=str, help='map: Calculate an average precision of dataset\n'
                                                 'accuracy: Calculate accuracy of prediction on testing dataset\n')
 parser.add_argument('--distance', type=str, help='L1: Manhattan Distance \n'
-                                                'L2: Euclidean distance', required=False, default='L1')
+                                                'L2: Euclidean distance', required=False, default='L2')
 args = parser.parse_args()
 
 def print_defenitions():
