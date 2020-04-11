@@ -56,7 +56,7 @@ if __name__ == "__main__":
             predict_class(extractor.compute_query_vector(args.query), vectors, args.distance)
         elif args.model == 'vlad':
             vlad_class = VladPrediction(vlad_dataset, args.dataset, args.query)
-            vlad_vectors = vlad_class.vlad_prediction(vlad_dataset)
+            vlad_vectors = vlad_class.vlad_prediction(vlad_dataset, args.distance)
 
     elif args.metric == 'map':
         if args.model == 'resnet':
@@ -70,7 +70,7 @@ if __name__ == "__main__":
             calculate_accuracy_metric(dataset, args.test_dataset, FeatureExtractor, args.distance)
         elif args.model == 'vlad':
             vlad_class = VladPrediction(vlad_dataset, args.dataset, args.query)
-            calculate_accuracy_metric_vlad(dataset, args.test_dataset, vlad_class)
+            calculate_accuracy_metric_vlad(dataset, args.test_dataset, vlad_class, args.distance)
 
     elif args.mode == 'cbir':
         if args.model == 'resnet':

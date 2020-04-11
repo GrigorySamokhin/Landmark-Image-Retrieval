@@ -5,8 +5,10 @@ import numpy as np
 import pickle
 from sklearn.cluster import KMeans
 from collections import Counter
+from six.moves import cPickle
 
 DIR = 'metadata'
+DEPTH = 3
 
 class VladPrediction(object):
 	def __init__(self, dataset, path, query):
@@ -53,7 +55,8 @@ class VladPrediction(object):
 
 		# Union all descriptors for each key-point to list
 		descriptors = np.array(list(itertools.chain.from_iterable(descriptors)))
-		print('Compete.')
+		cPickle.dump(descriptors, open(os.path.join('metadata', 'sift_vectors_{}'.format(dataset.dataset_dir)), "wb", True))
+		print('Complete.')
 		return descriptors
 
 	def get_clasters(self, descriptors, k):
@@ -135,7 +138,7 @@ class VladPrediction(object):
 		print('Complete. ', end='')
 		return vlad_descriptors
 
-	def get_prediction(self, kmeans_clusters, vlad_descriptors, query=None, mode=0):
+	def get_prediction(self, kmeans_clusters, vlad_descriptors, distance, query=None, mode=0):
 		'''
 		:param kmeans_clusters: Object of Kmeans (sklearn)
 		:param vlad_descriptors: Set of VLAD descriptions
@@ -156,7 +159,10 @@ class VladPrediction(object):
 		# Get distances between query VLAD and dataset VLADs descriptors
 		for i in range(len(vlad_descriptors)):
 			temp_vec = vlad_descriptors[i]['feature_vector']
-			dist = np.linalg.norm(temp_vec - v)
+			if distance == 'L1':
+				dist = np.linalg.norm((temp_vec - v), ord=1)
+			else:
+				dist = np.linalg.norm(temp_vec - v)
 			list_res.append({'i': i,
 							'dist': dist,
 							'class': vlad_descriptors[i]['class_image'],
@@ -165,19 +171,19 @@ class VladPrediction(object):
 		res_ = sorted(list_res, key=lambda x: x['dist'])
 
 		# Get most frequent class in (3) first classes
-		res_count = Counter([x['class'] for x in res_][:3])
+		res_count = Counter([x['class'] for x in res_][:DEPTH])
 		res = min(res_count.items(), key=lambda x: (-x[1], x[0]))[0]
 
 		if mode == 1:
 			return res
 
 		if mode == 2:
-			return res_[:3]
+			return res_[:DEPTH]
 
 		print('\nPredicted class for query image: {}.'.format(res))
 
 
-	def get_clusters_vlad_descriptors(self, dataset, k=16):
+	def get_clusters_vlad_descriptors(self, dataset, k=64):
 		'''
 		:param dataset: main dataset
 		:param k: number os clusters to determine (default=64)
@@ -192,8 +198,10 @@ class VladPrediction(object):
 				kmeans_clusters, vlad_descriptors = pickle.load(file)
 		else:
 			# Get list of all SIFT descriptors
-			descriptors = self.get_SIFT_descriptors(dataset)
-
+			if os.path.exists('sift_vectors_{}'.format(dataset.dataset_dir)):
+				descriptors = cPickle.load(open(os.path.join('metadata', 'sift_vectors_{}'.format(dataset.dataset_dir)), "rb", True))
+			else:
+				descriptors = self.get_SIFT_descriptors(dataset)
 			# Get Kmeans object with k clusters
 			kmeans_clusters = self.get_clasters(descriptors, k)
 
@@ -205,7 +213,7 @@ class VladPrediction(object):
 				pickle.dump([kmeans_clusters, vlad_descriptors], file)
 		return kmeans_clusters, vlad_descriptors
 
-	def vlad_prediction(self, dataset):
+	def vlad_prediction(self, dataset, distance):
 		'''
 		:param dataset: DataSet type of main dataset
 
@@ -215,7 +223,7 @@ class VladPrediction(object):
 		kmeans_clusters, vlad_descriptors = self.get_clusters_vlad_descriptors(dataset)
 
 		# Get prediction
-		self.get_prediction(kmeans_clusters, vlad_descriptors)
+		self.get_prediction(kmeans_clusters, vlad_descriptors, distance)
 		return vlad_descriptors
 
 

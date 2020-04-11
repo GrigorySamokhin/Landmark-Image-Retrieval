@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 DEPTH = 2
 TEST_DATASET_SIZE = .1
 
-def count_distance(vector_1, vector_2, distance_type='L2'):
+def count_distance(vector_1, vector_2, distance_type):
     '''
     :param vector_1:
     :param vector_2:
@@ -163,7 +163,7 @@ def calculate_map_metric(dataset, FeatureExtractor, distance='L1'):
         print("Class: {}, MAP: {}".format(class_temp, round(map, 2)))
     print("MMAP: ", np.mean(mean_ap))
 
-def calculate_map_vlad_metric(dataset, vlad_class, distance='L1'):
+def calculate_map_vlad_metric(dataset, vlad_class, distance):
     '''
     :param dataset: Object of DataSet with images and classes
     :param FeatureExtractor: Object of FeatureExtractor
@@ -196,7 +196,7 @@ def calculate_map_vlad_metric(dataset, vlad_class, distance='L1'):
     print("MMAP: ", np.mean(mean_ap))
 
 
-def calculate_accuracy_metric_vlad(dataset, test_dataset, vlad_class):
+def calculate_accuracy_metric_vlad(dataset, test_dataset, vlad_class, distance):
     '''
     :param dataset: Object of main DataSet with images and classes
     :param test_dataset: Object of test DataSet with images and classes
@@ -219,7 +219,7 @@ def calculate_accuracy_metric_vlad(dataset, test_dataset, vlad_class):
         for query_path in os.listdir(os.path.join(test_dataset, class_path)):
 
             # Create feature vector
-            class_pred = vlad_class.get_prediction(kmeans_clusters, vlad_descriptors,
+            class_pred = vlad_class.get_prediction(kmeans_clusters, vlad_descriptors, distance,
                         os.path.join(test_dataset, class_path, query_path), 1)
 
             if class_pred == class_path:
