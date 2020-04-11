@@ -196,14 +196,11 @@ On CPU all vectors in dataset **paris** with 50 images in 5 classes will compute
 You can print nearest photo in dataset by command:
 
     python3 main.py --mode cbir --model resnet --dataset paris --query paris_test/eiffel_tower/paris-1513078302.jpg
-Output:
+
 ![](https://sun9-2.userapi.com/c855124/v855124614/20ffb9/ArmXsj9rbcw.jpg)
-
- ![enter image description here](https://sun9-50.userapi.com/c855124/v855124614/20ffc0/oV-3ByAj4T4.jpg)
-
-![enter image description here](https://sun9-65.userapi.com/c855124/v855124614/20ffc7/1KkTzJYkAQ0.jpg)
-
-![enter image description here](https://sun9-57.userapi.com/c855124/v855124614/20ffd5/xHQuFcNKuR8.jpg)
+![](https://sun9-50.userapi.com/c855124/v855124614/20ffc0/oV-3ByAj4T4.jpg)
+![](https://sun9-65.userapi.com/c855124/v855124614/20ffc7/1KkTzJYkAQ0.jpg)
+![](https://sun9-57.userapi.com/c855124/v855124614/20ffd5/xHQuFcNKuR8.jpg)
 
 ### VLAD + SIFT
 
@@ -212,7 +209,6 @@ To retieve images with VLAD + SIFT use:
 
     python3 main.py --mode cbir --model vlad --dataset paris --query paris_test/louvre/louvre.jpg
 
-Output:
 
 ![](https://sun9-22.userapi.com/c205816/v205816415/b381c/VrNrlsBkzg4.jpg)
 ![](https://sun9-19.userapi.com/c205816/v205816415/b3823/Amux3NyoCL0.jpg)
