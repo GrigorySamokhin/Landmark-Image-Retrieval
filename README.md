@@ -192,7 +192,7 @@ If we have pre-computed vectors we will see:
 
 On CPU all vectors in dataset **paris** with 50 images in 5 classes will computed in 30 min, in GPU 20 second.
 
-### Content Based Image Retrieval 
+## Content Based Image Retrieval 
 You can print nearest photo in dataset by command:
 
     python3 main.py --mode cbir --model resnet --dataset paris --query paris_test/eiffel_tower/paris-1513078302.jpg
@@ -202,7 +202,7 @@ You can print nearest photo in dataset by command:
 ![](https://sun9-65.userapi.com/c855124/v855124614/20ffc7/1KkTzJYkAQ0.jpg)
 ![](https://sun9-57.userapi.com/c855124/v855124614/20ffd5/xHQuFcNKuR8.jpg)
 
-### VLAD + SIFT
+##### VLAD + SIFT
 
 We also can classify or retrieve images with [VLAD](https://lear.inrialpes.fr/pubs/2010/JDSP10/jegou_compactimagerepresentation.pdf) (Vector of Locally Aggregated Descriptors) and SIFT (Scale-invariant feature transform) approach.
 To retieve images with VLAD + SIFT use:
