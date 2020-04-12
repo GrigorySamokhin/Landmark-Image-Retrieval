@@ -15,7 +15,7 @@ dataset was cropped to 150 images per class (5 classes, only representative imag
 
 
 Link to the dataset used in this project: 
-[Dataset on Google Drive](https://drive.google.com/file/d/13R4KH2WhOdQeZkKi5td_caFhU5RZt6w9/view?usp=sharing).
+[Dataset on Google Drive](https://drive.google.com/file/d/1kZoFNMNLW-q8_aobtpZlzyIO0rs9cFNX/view?usp=sharing).
 
 
 But you use your own data, you can create own test dataset with following command (default size of test_dataset: 10%):
