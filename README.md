@@ -168,8 +168,8 @@ After computing we need to load query image and get predictions by following com
     python3 main.py --mode predict --model resnet --dataset paris --query paris_test/eiffel_tower/10-projets-de-voyage-a-PARIS.jpg
 
   
-![enter image description here](https://psv4.userapi.com/c856432/u21543301/docs/d5/aff8fd94843a/10-projets-de-voyage-a-PARIS.jpg?extra=tJGTDdUvLjs5iBJszZEyV48q5lFzz_U1CRyR3ydaiiGO0ItGHvqwD-wC6rHqp1JViqyuzphqSMX_CEAJVDUz7xq0YSs-l7BIVRVBtNMhh4fMmvfNAr50qu500TiMrKPNNHuZoxGeNUswMrm0RcH3ZvoG)
-
+![enter image description here](https://sun9-61.userapi.com/c857128/v857128691/1583c7/f9UDEKdM4wA.jpg)
+  
   Output:
 
     Mode type: predict.
