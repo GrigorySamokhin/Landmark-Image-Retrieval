@@ -160,6 +160,10 @@ but in General we can assume that L1 shows better results on our dataset.
 
 We can see accuracy are gradually increased with the number of clusters for VLAD-SIFT. 
 
+### Conclusion
+
+In General we can say, that feature maps extracted from trained convolutional network (transfer learning) gave better results for landmark image retrieval (A greater amount of nearest photo is retrieved correctly). SIFT keypoints very often highlight third-party objects that do not repeat in different photos (background, the place where the photo was taken, angle, part of the object in the photo) and as we could see, if the background changes, the accuracy drops significantly. ResNet better recognizes key objects (eiffel tower, louvre, etc) in the photo, and as a result shows better MAP and accuracy how we can see above.  Based on the number of correctly extracted nearest neighbors and overall MAP and accuracy, we can conclude that ResNet performed better in this task.
+
 ## Prediction
 
 Prediction based on KNN classification. The model calculate the distance (using L1 norm or L2 norm distances) between query image and every image in dataset and take n (DEPTH in code) images.
